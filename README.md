@@ -1,2 +1,2 @@
 # Donkey-Kong-1981
-Jeu de plateformes. Déplacement du joueur via les touches du clavier, droite gauche et haut bas pour les  échelles. Objectif: éviter les vilains et captez les pièces. Jeu terminé si toutes les pièces sont gagnées
+Platform game. Move the player via the keyboard keys: right, left, up and down for the scales. Objective: to break away from the villains and capture coins. The game ends when all coins are won. 
