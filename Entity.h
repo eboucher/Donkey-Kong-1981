@@ -13,23 +13,17 @@ enum EntityType
 class Entity
 {
   public:
-	Entity() { };
-
-	void setInitialX(float value);
-	void setInitialY(float value);
-	void setTexture(string texture);
-
+	Entity(const EntityType entityType, 
+		   const sf::Texture texture, 
+		   const sf::Vector2f initialPos) { };
 	~Entity() { };
 
   public:
 	sf::Sprite m_sprite;
 	sf::Vector2u m_size;
 	sf::Vector2f m_position;
-	sf::Texture texture;
+	sf::Texture m_texture;
 	EntityType m_type;
-	float _initialX;
-	float _initialY;
-	string _texture;
 	bool m_enabled = true;
 
 	// Enemy only

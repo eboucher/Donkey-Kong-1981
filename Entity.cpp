@@ -1,21 +1,10 @@
 #include "pch.h"
 #include "Entity.h"
 
-Entity::Entity() {
-
-}
-
-void Entity::setInitialX(float value)
-{
-	_initialX = value;
-}
-
-void Entity::setInitialY(float value)
-{
-	_initialY = value;
-}
-
-void Entity::setTexture(string texture)
-{
-	_texture = texture;
+Entity::Entity(const EntityType entityType,
+			   const sf::Texture texture,
+	           const sf::Vector2f initialPos) {
+	m_type = entityType;
+	m_texture = texture;
+	m_sprite.setPosition(initialPos);
 }
