@@ -213,5 +213,10 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 	if (key == sf::Keyboard::Space)
 	{
+		if (isPressed == false)
+		{
+			return;
+		}
+
 	}
 }
