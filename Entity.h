@@ -13,9 +13,10 @@ enum EntityType
 class Entity
 {
   public:
+	Entity() { };
 	Entity(const EntityType entityType, 
 		   const sf::Texture texture, 
-		   const sf::Vector2f initialPos) { };
+		   const sf::Vector2f initialPos);
 	~Entity() { };
 
   public:

@@ -42,20 +42,20 @@ Game::Game()
 		}
 	}
 
-	// Draw Echelles
+	// Draw Ladders
 
-	_TextureEchelle.loadFromFile("Media/Textures/Echelle.png");
+	_LadderTexture.loadFromFile("Media/Textures/Echelle.png");
 
 	for (int i = 0; i < ECHELLE_COUNT; i++)
 	{
-		_Echelle[i].setTexture(_TextureEchelle);
-		_Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
+		_Ladder[i].setTexture(_LadderTexture);
+		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		se->m_sprite = _Echelle[i];
-		se->m_type = EntityType::echelle;
-		se->m_size = _TextureEchelle.getSize();
-		se->m_position = _Echelle[i].getPosition();
+		se->m_sprite = _Ladder[i];
+		se->m_type = EntityType::ladder;
+		se->m_size = _LadderTexture.getSize();
+		se->m_position = _Ladder[i].getPosition();
 		EntityManager::m_Entities.push_back(se);
 	}
 
