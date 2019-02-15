@@ -1,22 +1,29 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <string>
+
 enum EntityType
 {
 	player,
 	block,
-	echelle
+	ladder
 };
 
 class Entity
 {
-public:
+  public:
 	Entity() { };
+	Entity(const EntityType entityType, 
+		   const sf::Texture texture, 
+		   const sf::Vector2f initialPos);
 	~Entity() { };
 
-public:
+  public:
 	sf::Sprite m_sprite;
 	sf::Vector2u m_size;
 	sf::Vector2f m_position;
+	sf::Texture m_texture;
 	EntityType m_type;
 	bool m_enabled = true;
 

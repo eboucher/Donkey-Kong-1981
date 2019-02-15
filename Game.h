@@ -1,6 +1,6 @@
 #pragma once
 
-#define ECHELLE_COUNT 4
+#define LADDER_COUNT 4
 #define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
@@ -37,8 +37,8 @@ private:
 	bool mIsMovingRight;
 	bool mIsMovingLeft;
 
-	sf::Texture	_TextureEchelle;
-	sf::Sprite	_Echelle[ECHELLE_COUNT];
+	sf::Texture	_LadderTexture;
+	sf::Sprite	_Ladder[LADDER_COUNT];
 	sf::Texture	_TextureBlock;
 	sf::Sprite	_Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
 	sf::Texture	_TextureWeapon;
