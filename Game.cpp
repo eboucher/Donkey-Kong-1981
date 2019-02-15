@@ -21,7 +21,7 @@ Game::Game()
 {
 	mWindow.setFramerateLimit(160);
 
-	// Draw blocks
+	// Draw ground blocks
 
 	_TextureBlock.loadFromFile("Media/Textures/Block.png");
 	_sizeBlock = _TextureBlock.getSize();
@@ -35,7 +35,7 @@ Game::Game()
 
 			std::shared_ptr<Entity> se = std::make_shared<Entity>();
 			se->m_sprite = _Block[i][j];
-			se->m_type = EntityType::block;
+			se->m_type = EntityType::ground;
 			se->m_size = _TextureBlock.getSize();
 			se->m_position = _Block[i][j].getPosition();
 			EntityManager::m_Entities.push_back(se);
