@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EntityManager.h"
+using namespace std;
 
 std::vector<std::shared_ptr<Entity>> EntityManager::m_Entities;
 
@@ -28,4 +29,10 @@ std::shared_ptr<Entity> EntityManager::GetPlayer()
 	}
 
 	return nullptr;
+}
+
+vector<shared_ptr<Entity>> EntityManager::GetLadders()
+{
+	vector<shared_ptr<Entity>> ladders;
+	return ladders;
 }
