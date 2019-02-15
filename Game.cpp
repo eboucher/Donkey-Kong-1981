@@ -44,9 +44,9 @@ Game::Game()
 
 	// Draw Ladders
 
-	_LadderTexture.loadFromFile("Media/Textures/Echelle.png");
+	_LadderTexture.loadFromFile("Media/Textures/Ladder.png");
 
-	for (int i = 0; i < ECHELLE_COUNT; i++)
+	for (int i = 0; i < LADDER_COUNT; i++)
 	{
 		_Ladder[i].setTexture(_LadderTexture);
 		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
