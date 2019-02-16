@@ -36,9 +36,17 @@ void EntityManager::addNewEntity(const EntityType entityType, sf::Vector2f posit
 	}
 }
 
+
 shared_ptr<Mario> EntityManager::GetMario() {
 	return EntityManager::mMario;
 }
+
+
+vector<shared_ptr<Ground>> EntityManager::GetGroundBlocks()
+{
+	return EntityManager::mGroundBlocks;
+}
+
 
 vector<shared_ptr<Entity>> EntityManager::GetLadders()
 {

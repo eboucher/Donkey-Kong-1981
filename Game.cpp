@@ -221,5 +221,20 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	}
 }
 
-void Game::handleGroundCollision() {	
+void Game::handleGroundCollision() {
+	auto GroundBlocks = EntityManager::GetGroundBlocks();
+	auto playerBounds = sf::Rect<float>(
+		player->m_position.x,
+		player->m_position.y,
+		player->m_size.x,
+		player->m_size.y
+		);
+	for (auto const& floor : GroundBlocks) {
+		auto floorGloabalBounds = floor.get()->m_sprite.getGlobalBounds();
+		if (floorGloabalBounds.intersects(playerBounds)) {
+			player->isFalling = false;
+			return;
+		}
+	}
+	player->isFalling = true;
 }

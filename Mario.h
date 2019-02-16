@@ -2,7 +2,8 @@
 #include "EntityManager.h"
 using namespace std;
 
-class Mario
+class Mario :
+	public Entity
 {
   public:
 	Mario(const sf::Texture&, sf::Vector2f);

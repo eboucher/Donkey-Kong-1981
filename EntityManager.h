@@ -21,6 +21,7 @@ class EntityManager
   public:
 	static void addNewEntity(const EntityType, sf::Vector2f position = defaultPosition);
 	static shared_ptr<Entity> GetMario();
+	static vector<shared_ptr<Ground>> GetGroundBlocks();
 	static vector<shared_ptr<Entity>> GetLadders();
 };
 
