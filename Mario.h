@@ -16,4 +16,7 @@ class Mario
 	bool isOnLadder = false;
 	bool isJumping = false;
 	bool isFalling = false;
+
+  protected:
+	  bool StandsOnGround();
 };
