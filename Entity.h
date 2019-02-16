@@ -5,7 +5,7 @@
 
 enum EntityType
 {
-	player,
+	mario,
 	ground,
 	ladder
 };

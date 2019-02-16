@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include "Mario.h"
 #include "InanimateObjects.h"
+
+#define defaultPosition sf::Vector2f(0, 0)
+
 using namespace std;
 
 class EntityManager
@@ -10,12 +13,14 @@ class EntityManager
 	EntityManager();
 	~EntityManager();
 
-  public:
-	static vector<shared_ptr<Entity>> m_Entities;
-	static shared_ptr<Mario> m; // TODO! (SO FAR THIS IS WRONG)
-	static vector<shared_ptr<Ground>> mGround;
+  private:
+	static shared_ptr<Mario> mMario;
+	static vector<shared_ptr<Ground>> mGroundBlocks;
 	static vector<shared_ptr<Ladder>> mLadders;
-	static shared_ptr<Entity> GetPlayer();
+
+  public:
+	static void addNewEntity(const EntityType, sf::Vector2f position = defaultPosition);
+	static shared_ptr<Entity> GetMario();
 	static vector<shared_ptr<Entity>> GetLadders();
 };
 

@@ -220,3 +220,6 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 	}
 }
+
+void Game::handleGroundCollision() {	
+}
