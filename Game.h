@@ -55,5 +55,5 @@ private:
 
   public:
 	shared_ptr<sf::Texture> getTexture(const sf::Image &spriteSheet);
-	void GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos);
+	shared_ptr<sf::Texture> GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos);
 };

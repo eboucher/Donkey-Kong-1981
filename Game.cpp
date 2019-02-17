@@ -9,16 +9,17 @@ const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 const string Game::texturesPath = "Media/Textures/DonkeyKong_SpriteSheet.png";
 
-std::shared_ptr<sf::Texture> Game::getTexture(const sf::Image &spriteSheet)
+shared_ptr<sf::Texture> Game::getTexture(const sf::Image &spriteSheet)
 {
 	return texture;
 }
 
-Game::GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos)
+shared_ptr<sf::Texture> Game::GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos)
 {
 	texture = make_shared<sf::Texture>();
 	texture->loadFromImage(spriteSheet, pos);
 	texture->setRepeated(true);
+	return texture;
 }
 
 Game::Game()

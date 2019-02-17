@@ -176,6 +176,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InanimateObjects.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StringHelpers.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InanimateObjects.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
