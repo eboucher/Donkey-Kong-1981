@@ -3,8 +3,23 @@
 #include "Game.h"
 #include "EntityManager.h"
 
+using namespace std;
+
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+const string Game::texturesPath = "Media/Textures/DonkeyKong_SpriteSheet.png";
+
+std::shared_ptr<sf::Texture> Game::getTexture(const sf::Image &spriteSheet)
+{
+	return texture;
+}
+
+Game::GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos)
+{
+	texture = make_shared<sf::Texture>();
+	texture->loadFromImage(spriteSheet, pos);
+	texture->setRepeated(true);
+}
 
 Game::Game()
 	: mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
@@ -38,7 +53,7 @@ Game::Game()
 			se->m_type = EntityType::ground;
 			se->m_size = _TextureBlock.getSize();
 			se->m_position = _Block[i][j].getPosition();
-			EntityManager::m_Entities.push_back(se);
+			EntityManager::addNewEntity(EntityType::ground, se->m_position);
 		}
 	}
 
@@ -56,7 +71,7 @@ Game::Game()
 		se->m_type = EntityType::ladder;
 		se->m_size = _LadderTexture.getSize();
 		se->m_position = _Ladder[i].getPosition();
-		EntityManager::m_Entities.push_back(se);
+		EntityManager::addNewEntity(EntityType::ladder, se->m_position);
 	}
 
 	// Draw Mario
