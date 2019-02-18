@@ -102,7 +102,7 @@ void Game::run()
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processEvents();
-			UpdateEntities(TimePerFrame);
+			EntityManager::UpdateEntities(TimePerFrame);
 		}
 
 		updateStatistics(elapsedTime);
@@ -132,6 +132,7 @@ void Game::processEvents()
 	}
 }
 
+//TODO: Render according the nature of the object (consider only animate objects?)
 void Game::render()
 {
 	mWindow.clear();
@@ -196,6 +197,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	}
 }
 
+
+//TODO: This method definition should be defined somewhere else, other than inside the Game class
 void Game::handleGroundCollision() {
 	auto GroundBlocks = EntityManager::GetGroundBlocks();
 	auto playerBounds = sf::Rect<float>(
