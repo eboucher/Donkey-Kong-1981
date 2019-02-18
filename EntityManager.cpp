@@ -63,28 +63,5 @@ vector<shared_ptr<Entity>> EntityManager::GetLadders()
 
 void EntityManager::UpdateEntities(sf::Time elapsedTime)
 {
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
-		movement.y += PlayerSpeed;
-	if (mIsMovingLeft)
-		movement.x -= PlayerSpeed;
-	if (mIsMovingRight)
-		movement.x += PlayerSpeed;
 
-	for (shared_ptr<Entity> mario : EntityManager::m_Entities)
-	{
-		if (entity->m_enabled == false)
-		{
-			continue;
-		}
-
-		if (entity->m_type != EntityType::mario)
-		{
-			continue;
-		}
-
-		mario->m_sprite.move(movement * elapsedTime.asSeconds());
-	}
 }
