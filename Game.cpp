@@ -42,19 +42,13 @@ Game::Game()
 	_TextureBlock.loadFromFile("Media/Textures/Block.png");
 	_sizeBlock = _TextureBlock.getSize();
 
+	sf::Vector2f position;
 	for (int i = 0; i < BLOCK_COUNT_X; i++)
 	{
 		for (int j = 0; j < BLOCK_COUNT_Y; j++)
 		{
-			_Block[i][j].setTexture(_TextureBlock);
-			_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-
-			std::shared_ptr<Entity> se = std::make_shared<Entity>();
-			se->m_sprite = _Block[i][j];
-			se->m_type = EntityType::ground;
-			se->m_size = _TextureBlock.getSize();
-			se->m_position = _Block[i][j].getPosition();
-			EntityManager::addNewEntity(EntityType::ground, se->m_position);
+			position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+			EntityManager::AddGroundBlock(position);
 		}
 	}
 
@@ -67,12 +61,12 @@ Game::Game()
 		_Ladder[i].setTexture(_LadderTexture);
 		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
 
-		std::shared_ptr<Entity> se = std::make_shared<Entity>();
+		shared_ptr<Entity> se = make_shared<Entity>();
 		se->m_sprite = _Ladder[i];
 		se->m_type = EntityType::ladder;
 		se->m_size = _LadderTexture.getSize();
 		se->m_position = _Ladder[i].getPosition();
-		EntityManager::addNewEntity(EntityType::ladder, se->m_position);
+		EntityManager::AddLadder(se->m_position);
 	}
 
 	// Draw Mario
@@ -84,14 +78,7 @@ Game::Game()
 	posMario.x = 100.f + 70.f;
 	posMario.y = BLOCK_SPACE * 5 - _sizeMario.y;
 
-	mPlayer.setPosition(posMario);
-
-	std::shared_ptr<Entity> player = std::make_shared<Entity>();
-	player->m_sprite = mPlayer;
-	player->m_type = EntityType::player;
-	player->m_size = mTexture.getSize();
-	player->m_position = mPlayer.getPosition();
-	EntityManager::m_Entities.push_back(player);
+	EntityManager::SetMario(posMario);
 
 	// Draw Statistic Font 
 
@@ -115,7 +102,7 @@ void Game::run()
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processEvents();
-			update(TimePerFrame);
+			UpdateEntities(TimePerFrame);
 		}
 
 		updateStatistics(elapsedTime);
@@ -145,39 +132,11 @@ void Game::processEvents()
 	}
 }
 
-void Game::update(sf::Time elapsedTime)
-{
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
-		movement.y += PlayerSpeed;
-	if (mIsMovingLeft)
-		movement.x -= PlayerSpeed;
-	if (mIsMovingRight)
-		movement.x += PlayerSpeed;
-
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
-	{
-		if (entity->m_enabled == false)
-		{
-			continue;
-		}
-
-		if (entity->m_type != EntityType::player)
-		{
-			continue;
-		}
-
-		entity->m_sprite.move(movement * elapsedTime.asSeconds());
-	}
-}
-
 void Game::render()
 {
 	mWindow.clear();
 
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
+	for (shared_ptr<Entity> entity : EntityManager::m_Entities)
 	{
 		if (entity->m_enabled == false)
 		{
@@ -240,17 +199,17 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 void Game::handleGroundCollision() {
 	auto GroundBlocks = EntityManager::GetGroundBlocks();
 	auto playerBounds = sf::Rect<float>(
-		player->m_position.x,
-		player->m_position.y,
-		player->m_size.x,
-		player->m_size.y
+		mario->m_position.x,
+		mario->m_position.y,
+		mario->m_size.x,
+		mario->m_size.y
 		);
 	for (auto const& floor : GroundBlocks) {
 		auto floorGloabalBounds = floor.get()->m_sprite.getGlobalBounds();
 		if (floorGloabalBounds.intersects(playerBounds)) {
-			player->isFalling = false;
+			mario->isFalling = false;
 			return;
 		}
 	}
-	player->isFalling = true;
+	mario->isFalling = true;
 }

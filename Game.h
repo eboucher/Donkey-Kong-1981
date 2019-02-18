@@ -18,7 +18,6 @@ private:
 	shared_ptr<sf::Texture> texture;
 
 	void processEvents();
-	void update(sf::Time elapsedTime);
 	void render();
 
 	void updateStatistics(sf::Time elapsedTime);
