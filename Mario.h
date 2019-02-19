@@ -17,11 +17,12 @@ class Mario :
 	static const bool isMovingDown = false;
 	static const bool isOnLadder = false;
 	static const bool isJumping = false;
-	static const bool isFalling = false;
+	static bool isFalling;
 
   protected:
 	  bool StandsOnGround();
 
   public:
+	  static void setFalling(bool);
 	  static void UpdateMario(sf::Time elapsedTime);
 };

@@ -21,8 +21,10 @@ class EntityManager
   public:
 	static void SetMario(sf::Vector2f position);
 	static shared_ptr<Mario> GetMario();
+
 	static void AddGroundBlock(sf::Vector2f position);
 	static vector<shared_ptr<Ground>> GetGroundBlocks();
+
 	static void AddLadder(sf::Vector2f position);
 	static vector<shared_ptr<Entity>> GetLadders();
 

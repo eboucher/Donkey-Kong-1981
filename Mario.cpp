@@ -11,6 +11,11 @@ Mario::~Mario()
 }
 
 
+void Mario::setFalling(bool value)
+{
+	isFalling = value;
+}
+
 void Mario::UpdateMario(sf::Time elapsedTime)
 {
 	sf::Vector2f movement(0.f, 0.f);
@@ -23,7 +28,7 @@ void Mario::UpdateMario(sf::Time elapsedTime)
 	if (isMovingRight)
 		movement.x += MarioSpeed;
 
-	Entity::m_sprite.move(movement * elapsedTime.asSeconds());
+	//Entity::m_sprite.move(movement * elapsedTime.asSeconds());
 }
 
 

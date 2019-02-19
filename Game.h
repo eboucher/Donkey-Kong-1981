@@ -5,6 +5,8 @@
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 
+#include "EntityManager.h"
+
 using namespace std;
 
 class Game

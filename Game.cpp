@@ -136,17 +136,6 @@ void Game::processEvents()
 void Game::render()
 {
 	mWindow.clear();
-
-	for (shared_ptr<Entity> entity : EntityManager::m_Entities)
-	{
-		if (entity->m_enabled == false)
-		{
-			continue;
-		}
-
-		mWindow.draw(entity->m_sprite);
-	}
-
 	mWindow.draw(mStatisticsText);
 	mWindow.display();
 }
@@ -200,8 +189,10 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 //TODO: This method definition should be defined somewhere else, other than inside the Game class
 void Game::handleGroundCollision() {
+
+	shared_ptr<Mario> mario = EntityManager::GetMario();
 	auto GroundBlocks = EntityManager::GetGroundBlocks();
-	auto playerBounds = sf::Rect<float>(
+	auto MarioBounds = sf::Rect<float>(
 		mario->m_position.x,
 		mario->m_position.y,
 		mario->m_size.x,
@@ -209,7 +200,7 @@ void Game::handleGroundCollision() {
 		);
 	for (auto const& floor : GroundBlocks) {
 		auto floorGloabalBounds = floor.get()->m_sprite.getGlobalBounds();
-		if (floorGloabalBounds.intersects(playerBounds)) {
+		if (floorGloabalBounds.intersects(MarioBounds)) {
 			mario->isFalling = false;
 			return;
 		}
