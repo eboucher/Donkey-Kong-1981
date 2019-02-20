@@ -2,9 +2,9 @@
 #include "Mario.h"
 
 Mario::Mario(const sf::Texture& texture, sf::Vector2f position)
-	: /*isMovingRight(false), isMovingLeft(false),
+	: isMovingRight(false), isMovingLeft(false),
 	  isMovingUp(false), isMovingDown(false),
-	  isOnLadder(false), isJumping(false), */
+	  isOnLadder(false), isJumping(false),
 	  Entity(EntityType::mario, texture, position)
 {
 }
@@ -19,6 +19,7 @@ void Mario::setFalling(bool value)
 {
 	isFalling = value;
 }
+
 
 
 void Mario::HandleInput(sf::Keyboard::Key key, bool isPressed)

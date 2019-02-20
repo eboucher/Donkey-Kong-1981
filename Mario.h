@@ -12,19 +12,19 @@ class Mario :
 
   private:
 	static float MarioSpeed;
-	static bool isMovingRight;
-	static bool isMovingLeft;
-	static bool isMovingUp;
-	static bool isMovingDown;
-	static bool isOnLadder;
-	static bool isJumping;
-	static bool isFalling;
+	bool isMovingRight = false;
+	bool isMovingLeft;
+	bool isMovingUp;
+	bool isMovingDown;
+	bool isOnLadder;
+	bool isJumping;
+	bool isFalling;
 
   protected:
 	  bool StandsOnGround();
 
   public:
-	  static void setFalling(bool);
-	  static void HandleInput(sf::Keyboard::Key key, bool isPressed);
-	  static void UpdateMario(sf::Time elapsedTime);
+	  void setFalling(bool);
+	  void HandleInput(sf::Keyboard::Key key, bool isPressed);
+	  void UpdateMario(sf::Time elapsedTime);
 };
