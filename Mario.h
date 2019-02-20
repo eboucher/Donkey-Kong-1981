@@ -1,5 +1,6 @@
 #pragma once
 #include "EntityManager.h"
+#include "Entity.h"
 using namespace std;
 
 class Mario :
@@ -9,14 +10,14 @@ class Mario :
 	Mario(const sf::Texture&, sf::Vector2f);
 	~Mario();
 
-  public:  // TODO: This in fact has to be private, not public
-	static const float MarioSpeed;
-	static const bool isMovingRight = false;
-	static const bool isMovingLeft = false;
-	static const bool isMovingUp = false;
-	static const bool isMovingDown = false;
-	static const bool isOnLadder = false;
-	static const bool isJumping = false;
+  private:
+	static float MarioSpeed;
+	static bool isMovingRight;
+	static bool isMovingLeft;
+	static bool isMovingUp;
+	static bool isMovingDown;
+	static bool isOnLadder;
+	static bool isJumping;
 	static bool isFalling;
 
   protected:
@@ -24,5 +25,6 @@ class Mario :
 
   public:
 	  static void setFalling(bool);
+	  static void HandleInput(sf::Keyboard::Key key, bool isPressed);
 	  static void UpdateMario(sf::Time elapsedTime);
 };

@@ -12,6 +12,7 @@ Ground::~Ground()
 {
 }
 
+
 Ladder::Ladder(const sf::Texture& texture, sf::Vector2f position)
 	: Entity(EntityType::ladder, texture, position)
 {

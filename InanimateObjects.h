@@ -14,4 +14,3 @@ public:
 	Ladder(const sf::Texture&, sf::Vector2f);
 	~Ladder();
 };
-

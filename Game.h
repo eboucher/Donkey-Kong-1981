@@ -24,7 +24,6 @@ private:
 
 	void updateStatistics(sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-	void handleGroundCollision();
 
 private:
 	static const float		PlayerSpeed;

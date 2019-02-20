@@ -113,21 +113,22 @@ void Game::run()
 void Game::processEvents()
 {
 	sf::Event event;
+	shared_ptr<Mario> mario = EntityManager::GetMario();
 	while (mWindow.pollEvent(event))
 	{
 		switch (event.type)
 		{
-		case sf::Event::KeyPressed:
-			handlePlayerInput(event.key.code, true);
-			break;
+			case sf::Event::KeyPressed:
+				mario->HandleInput(event.key.code, true);
+				break;
 
-		case sf::Event::KeyReleased:
-			handlePlayerInput(event.key.code, false);
-			break;
+			case sf::Event::KeyReleased:
+				mario->HandleInput(event.key.code, false);
+				break;
 
-		case sf::Event::Closed:
-			mWindow.close();
-			break;
+			case sf::Event::Closed:
+				mWindow.close();
+				break;
 		}
 	}
 }
@@ -187,23 +188,3 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 }
 
 
-//TODO: This method definition should be defined somewhere else, other than inside the Game class
-void Game::handleGroundCollision() {
-
-	shared_ptr<Mario> mario = EntityManager::GetMario();
-	auto GroundBlocks = EntityManager::GetGroundBlocks();
-	auto MarioBounds = sf::Rect<float>(
-		mario->m_position.x,
-		mario->m_position.y,
-		mario->m_size.x,
-		mario->m_size.y
-		);
-	for (auto const& floor : GroundBlocks) {
-		auto floorGloabalBounds = floor.get()->m_sprite.getGlobalBounds();
-		if (floorGloabalBounds.intersects(MarioBounds)) {
-			mario->isFalling = false;
-			return;
-		}
-	}
-	mario->isFalling = true;
-}
