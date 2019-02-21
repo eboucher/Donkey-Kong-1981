@@ -26,7 +26,7 @@ private:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 private:
-	static const float		PlayerSpeed;
+	static const float		MarioSpeed;
 	static const sf::Time	TimePerFrame;
 
 	sf::RenderWindow		mWindow;

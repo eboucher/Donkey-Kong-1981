@@ -1,6 +1,8 @@
 #pragma once
-#include "EntityManager.h"
 #include "Entity.h"
+
+constexpr auto DEFAULT_SPEED = 100.f;;
+
 using namespace std;
 
 class Mario :
@@ -11,7 +13,7 @@ class Mario :
 	~Mario();
 
   private:
-	static float MarioSpeed;
+	float MarioSpeed;
 	bool isMovingRight = false;
 	bool isMovingLeft;
 	bool isMovingUp;

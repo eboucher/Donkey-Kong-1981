@@ -2,7 +2,7 @@
 #include "Mario.h"
 
 Mario::Mario(const sf::Texture& texture, sf::Vector2f position)
-	: isMovingRight(false), isMovingLeft(false),
+	: MarioSpeed(DEFAULT_SPEED), isMovingRight(false), isMovingLeft(false),
 	  isMovingUp(false), isMovingDown(false),
 	  isOnLadder(false), isJumping(false),
 	  Entity(EntityType::mario, texture, position)

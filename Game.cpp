@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const float Game::PlayerSpeed = 100.f;
+//const float Game::MarioSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 const string Game::texturesPath = "Media/Textures/DonkeyKong_SpriteSheet.png";
 
