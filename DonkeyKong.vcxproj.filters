@@ -33,7 +33,7 @@
     <ClInclude Include="Mario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InanimateObjects.h">
+    <ClInclude Include="InanimateEntities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InanimateObjects.cpp">
+    <ClCompile Include="InanimateEntities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

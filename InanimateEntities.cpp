@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "InanimateObjects.h"
+#include "InanimateEntities.h"
 
 
 Ground::Ground(const sf::Texture& texture, sf::Vector2f position)

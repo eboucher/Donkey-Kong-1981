@@ -1,6 +1,7 @@
 #pragma once
+#include "Entity.h"
 #include "Mario.h"
-#include "InanimateObjects.h"
+#include "InanimateEntities.h"
 
 #define defaultPosition sf::Vector2f(0, 0)
 
