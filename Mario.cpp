@@ -9,10 +9,11 @@ Mario::Mario(const sf::Texture& texture, sf::Vector2f position)
 {
 }
 
-
+/*
 Mario::~Mario()
 {
 }
+*/
 
 
 void Mario::setFalling(bool value)

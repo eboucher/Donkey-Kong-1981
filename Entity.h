@@ -17,7 +17,7 @@ class Entity
 	Entity(const EntityType entityType, 
 		   const sf::Texture texture, 
 		   const sf::Vector2f initialPos);
-	~Entity() { };
+	//~Entity() { };
 
   public:
 	sf::Sprite m_sprite;

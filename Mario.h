@@ -10,23 +10,23 @@ class Mario :
 {
   public:
 	Mario(const sf::Texture&, sf::Vector2f);
-	~Mario();
+	//~Mario();
 
   private:
 	float MarioSpeed;
 	bool isMovingRight = false;
-	bool isMovingLeft;
-	bool isMovingUp;
-	bool isMovingDown;
-	bool isOnLadder;
-	bool isJumping;
-	bool isFalling;
+	bool isMovingLeft = false;
+	bool isMovingUp = false;
+	bool isMovingDown = false;
+	bool isOnLadder = false;
+	bool isJumping = false;
+	bool isFalling = false;
 
   protected:
 	  bool StandsOnGround();
 
   public:
-	  void setFalling(bool);
+	  void setFalling(bool value);
 	  void HandleInput(sf::Keyboard::Key key, bool isPressed);
 	  void UpdateMario(sf::Time elapsedTime);
 };
