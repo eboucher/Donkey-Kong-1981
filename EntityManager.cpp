@@ -2,7 +2,7 @@
 #include "EntityManager.h"
 using namespace std;
 
-shared_ptr<Mario> EntityManager::mMario;
+vector <shared_ptr<Mario>> EntityManager::mMario;
 vector<shared_ptr<Ground>> EntityManager::mGroundBlocks;
 vector<shared_ptr<Ladder>> EntityManager::mLadders;
 
@@ -15,6 +15,7 @@ EntityManager::~EntityManager()
 {
 }
 
+
 void EntityManager::SetMario(sf::Vector2f position)
 {
 	sf::Texture texture;
@@ -22,12 +23,12 @@ void EntityManager::SetMario(sf::Vector2f position)
 	position.x = 0.f;
 	position.y = 0.f;
 	shared_ptr<Mario> ptr = make_shared<Mario>(texture, position);
-	EntityManager::mMario = ptr;
+	EntityManager::mMario.push_back(ptr);
 }
 
 
 shared_ptr<Mario> EntityManager::GetMario() {
-	return EntityManager::mMario;
+	return EntityManager::mMario[0];
 }
 
 

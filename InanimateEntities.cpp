@@ -7,11 +7,11 @@ Ground::Ground(const sf::Texture& texture, sf::Vector2f position)
 {
 }
 
-/*
+
 Ground::~Ground()
 {
 }
-*/
+
 
 
 Ladder::Ladder(const sf::Texture& texture, sf::Vector2f position)
@@ -19,8 +19,7 @@ Ladder::Ladder(const sf::Texture& texture, sf::Vector2f position)
 {
 }
 
-/*
+
 Ladder::~Ladder()
 {
 }
-*/

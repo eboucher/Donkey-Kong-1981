@@ -10,10 +10,10 @@ class EntityManager
 {
   public:
 	EntityManager();
-	~EntityManager();
+	virtual ~EntityManager();
 
   private:
-	static shared_ptr<Mario> mMario;
+	static vector<shared_ptr<Mario>> mMario;
 	static vector<shared_ptr<Ground>> mGroundBlocks;
 	static vector<shared_ptr<Ladder>> mLadders;
 

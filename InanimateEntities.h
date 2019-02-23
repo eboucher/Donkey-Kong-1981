@@ -6,7 +6,7 @@ class Ground
 {
 public:
 	Ground(const sf::Texture&, sf::Vector2f);
-	//~Ground();
+	~Ground();
 };
 
 
@@ -15,5 +15,5 @@ class Ladder
 {
 public:
 	Ladder(const sf::Texture&, sf::Vector2f);
-	//~Ladder();
+	~Ladder();
 };

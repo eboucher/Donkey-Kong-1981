@@ -55,18 +55,13 @@ Game::Game()
 			//block->m_type = EntityType::ground;
 			//block->m_size = _TextureBlock.getSize();
 			//block->m_position = _Block[i][j].getPosition();
-			if (j % 2) {
-				position = sf::Vector2f(130.f + 70.f * (i + 1), -5.f + BLOCK_SPACE * (j + 1) + (i + 1));
-			}
-			else {
-				position = sf::Vector2f(190.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
-			}
+			position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
 			EntityManager::AddGroundBlock(position);
 		}
 	}
 
 	// Draw Ladders
-	/*
+
 	_LadderTexture.loadFromFile("Media/Textures/Ladder.png");
 
 	for (int i = 0; i < LADDER_COUNT; i++)
@@ -80,7 +75,7 @@ Game::Game()
 		se->m_size = _LadderTexture.getSize();
 		se->m_position = _Ladder[i].getPosition();
 		EntityManager::AddLadder(se->m_position);
-	}*/
+	}
 
 	// Draw Mario
 
@@ -126,31 +121,58 @@ void Game::run()
 void Game::processEvents()
 {
 	sf::Event event;
-	shared_ptr<Mario> mario = EntityManager::GetMario();
 	while (mWindow.pollEvent(event))
 	{
 		switch (event.type)
 		{
-			case sf::Event::KeyPressed:
-				mario->HandleInput(event.key.code, true);
-				break;
+		case sf::Event::KeyPressed:
+			handlePlayerInput(event.key.code, true);
+			break;
 
-			case sf::Event::KeyReleased:
-				mario->HandleInput(event.key.code, false);
-				break;
+		case sf::Event::KeyReleased:
+			handlePlayerInput(event.key.code, false);
+			break;
 
-			case sf::Event::Closed:
-				mWindow.close();
-				break;
+		case sf::Event::Closed:
+			mWindow.close();
+			break;
 		}
 	}
 }
 
-//TODO: Render according the nature of the object (consider only animate objects?)
 void Game::render()
 {
 	mWindow.clear();
+
+	for (std::shared_ptr<Entity> entity : entityManager->mBlocks)
+	{
+		if (entity->m_enabled)
+			mWindow.draw(entity->m_sprite);
+	}
+
+	for (std::shared_ptr<Entity> entity : entityManager->mLadders)
+	{
+		if (entity->m_enabled)
+			mWindow.draw(entity->m_sprite);
+	}
+
+	for (std::shared_ptr<Entity> entity : entityManager->mCoins)
+	{
+		if (entity->m_enabled)
+			mWindow.draw(entity->m_sprite);
+	}
+
+	for (std::shared_ptr<Entity> entity : entityManager->mEnemies)
+	{
+		if (entity->m_enabled)
+			mWindow.draw(entity->m_sprite);
+	}
+
+	mWindow.draw(entityManager->mPlayer->m_sprite);
+	mWindow.draw(entityManager->mPeach->m_sprite);
+
 	mWindow.draw(mStatisticsText);
+
 	mWindow.display();
 }
 
