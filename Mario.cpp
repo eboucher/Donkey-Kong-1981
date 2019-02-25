@@ -2,6 +2,9 @@
 #include "Mario.h"
 #include "EntityManager.h"
 
+const int JUMPING_FRAMES = 10;
+const int FLYING_FRAMES = 15;
+
 Mario::Mario(sf::Vector2f position) : Entity(position)
 {
 	m_speed = 150.f;
@@ -14,14 +17,9 @@ Mario::~Mario()
 {
 }
 
-
 void Mario::Jump(sf::Time elapsedTime) {
-	Textures textures;
 	if (!this->IsOnLadder()) {
-		if (GoesToTheRight)
-			UpdateTexture(textures.RightJumpTexturePath);
-		else
-			UpdateTexture(textures.LeftJumpTexturePath);
+		GoesToTheRight ? UpdateTexture(mRightJumpTexturePath) : UpdateTexture(mLeftJumpTexturePath);
 
 		sf::Vector2f movement(0.f, 0.f);
 		movement.y -= m_speed;
@@ -30,31 +28,27 @@ void Mario::Jump(sf::Time elapsedTime) {
 }
 
 void Mario::GravityHandle() {
-	Textures textures;
-	if (fallingCaption != JUMPING_FRAMES) {
-		if (GoesToTheRight)
-			UpdateTexture(textures.RightJumpTexturePath);
-		else
-			UpdateTexture(textures.LeftJumpTexturePath);
+	if (cptFall != JUMPING_FRAMES) {
+		GoesToTheRight ? UpdateTexture(mRightJumpTexturePath) : UpdateTexture(mLeftJumpTexturePath);
 	}
-	if (flyingCaption > 0 && flyingCaption < FLYING_FRAMES) {
-		flyingCaption++;
+	if (cptFly > 0 && cptFly < FLYING_FRAMES) {
+		cptFly++;
 	}
 	else {
-		if (jumpingCaption == JUMPING_FRAMES) {
-			flyingCaption++;
+		if (cptJump == JUMPING_FRAMES) {
+			cptFly++;
 			mIsJumping = false;
 		}
 		if (!mIsJumping)
-			jumpingCaption = 0;
-		if (!mIsJumping && fallingCaption != JUMPING_FRAMES)
-			fallingCaption++;
+			cptJump = 0;
+		if (!mIsJumping && cptFall != JUMPING_FRAMES)
+			cptFall++;
 		if (mIsJumping) {
-			jumpingCaption++;
-			fallingCaption--;
+			cptJump++;
+			cptFall--;
 		}
-		if (flyingCaption == FLYING_FRAMES)
-			flyingCaption = 0;
+		if (cptFly == FLYING_FRAMES)
+			cptFly = 0;
 	}
 }
 
@@ -72,37 +66,33 @@ bool Mario::TouchBowser()
 
 void Mario::GoLeft(sf::Time elapsedTime)
 {
-	Textures textures;
-	if (fallingCaption == JUMPING_FRAMES) {
-		UpdateTexture(textures.leftTexturePath);
+	if (cptFall == JUMPING_FRAMES) {
+		UpdateTexture(mleftTexturePath);
 	}
 	Entity::GoLeft(elapsedTime);
 }
 
 void Mario::GoRight(sf::Time elapsedTime)
 {
-	Textures textures;
-	if (fallingCaption == JUMPING_FRAMES) {
-		UpdateTexture(textures.RightTexturePath);
+	if (cptFall == JUMPING_FRAMES) {
+		UpdateTexture(mRightTexturePath);
 	}
 	Entity::GoRight(elapsedTime);
 }
 
-bool Mario::ClimbLadder(sf::Time elapsedTime)
+bool Mario::GoUp(sf::Time elapsedTime)
 {
-	Textures textures;
-	if(OnALadder())
-		UpdateTexture(textures.UpTexturePath);
-	return Entity::ClimbLadder(elapsedTime); 
+	if(IsAboveOrOnLadder())
+		UpdateTexture(mUpTexturePath);
+	return Entity::GoUp(elapsedTime); 
 }
 
 bool Mario::GoDown(sf::Time elapsedTime)
 {
-	Textures textures;
-	if (this->OnALadder())
+	if (this->IsAboveOrOnLadder() || OnVoid())
 	{
-		if (IsOnLadder())
-			UpdateTexture(textures.UpTexturePath);
+		if (IsOnLadder()) 
+			UpdateTexture(mUpTexturePath);
 
 		sf::Vector2f movement(0.f, 0.f);
 		movement.y += m_speed;

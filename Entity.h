@@ -1,5 +1,4 @@
 #pragma once
-#include "Textures.h"
 
 using namespace std;
 
@@ -18,12 +17,14 @@ public:
 public:
 	void GoRight(sf::Time elapsedTime);
 	void GoLeft(sf::Time elapsedTime);
-	bool ClimbLadder(sf::Time elapsedTime);
+	bool GoUp(sf::Time elapsedTime);
 	void UpdateTexture(string path);
 	bool GoDown(sf::Time elapsedTime);
-	bool IsOnLadder();
-	bool OnALadder();
+	bool IsOnLadder();		
+	bool IsAboveOrOnLadder();
 	bool CollidesBlock();
+	bool OnVoid();
+	bool IsOutsideOfWindow();
 
 public:
 	bool GoesToTheRight = true;

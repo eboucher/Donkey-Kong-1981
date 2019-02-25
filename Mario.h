@@ -1,10 +1,6 @@
 #pragma once
 #include "pch.h"
 #include "Entity.h"
-#include "Textures.h"
-
-#define JUMPING_FRAMES 10
-#define FLYING_FRAMES 15
 
 using namespace std;
 
@@ -20,14 +16,21 @@ public:
 	bool GoDown(sf::Time elapsedTime);
 	void GoLeft(sf::Time elapsedTime); 
 	void GoRight(sf::Time elapsedTime); 
-	bool ClimbLadder(sf::Time elapsedTime);
+	bool GoUp(sf::Time elapsedTime);
 	void Jump(sf::Time elapsedTime);
 	void GravityHandle();
 
 public:
 	bool mIsJumping = false;
-	int jumpingCaption = 0;
-	int fallingCaption = 10;
-	int flyingCaption = 0;
+	int cptJump = 0;
+	int cptFall = 10;
+	int cptFly = 0;
+
+private:
+	string mRightJumpTexturePath = "Media/Textures/mario_jump_right.png";
+	string mLeftJumpTexturePath = "Media/Textures/mario_jump_left.png";
+	string mUpTexturePath = "Media/Textures/mario_back.png";
+	string mRightTexturePath = "Media/Textures/mario_right.png";
+	string mleftTexturePath = "Media/Textures/mario_left.png";
 };
 

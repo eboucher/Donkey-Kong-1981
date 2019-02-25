@@ -40,7 +40,7 @@ void Entity::GoLeft(sf::Time elapsedTime)
 	}
 }
 
-bool Entity::ClimbLadder(sf::Time elapsedTime)
+bool Entity::GoUp(sf::Time elapsedTime)
 {
 	if (this->IsOnLadder())
 	{
@@ -54,7 +54,7 @@ bool Entity::ClimbLadder(sf::Time elapsedTime)
 
 bool Entity::GoDown(sf::Time elapsedTime)
 {
-	if (this->OnALadder())
+	if (this->IsAboveOrOnLadder())
 	{
 		sf::Vector2f movement(0.f, 0.f);
 		movement.y += m_speed;
@@ -69,8 +69,10 @@ bool Entity::IsOnLadder()
 	for (shared_ptr<Entity> ladder : EntityManager::mLadders)
 	{
 		sf::FloatRect ladderBounds = ladder->mSprite.getGlobalBounds();
+		// we add the height of the block texture so our entity can hike on it
 		ladderBounds.top -= 33;
 		ladderBounds.height += 33;
+		// we adjust the weight of the block so entities cannot go up if they intersect with only 1 pixel
 		ladderBounds.left += 13;
 		ladderBounds.width -= 20;
 
@@ -83,7 +85,7 @@ bool Entity::IsOnLadder()
 	return false;
 }
 
-bool Entity::OnALadder()
+bool Entity::IsAboveOrOnLadder()
 {
 	for (shared_ptr<Entity> entity : EntityManager::mLadders)
 	{
@@ -113,9 +115,30 @@ bool Entity::CollidesBlock() {
 	return false;
 }
 
+bool Entity::OnVoid()
+{
+	bool OnEdge = true;
+	for (shared_ptr<Entity> block : EntityManager::mBlocks)
+	{
+		sf::FloatRect blockBounds = block->mSprite.getGlobalBounds();
+		blockBounds.top -= 5;
+		blockBounds.left += 5;
+		blockBounds.width -= 10;
+		if (mSprite.getGlobalBounds().intersects(blockBounds))
+			OnEdge = false;
+	}
+	return !IsOnLadder() && OnEdge;
+}
+
+bool Entity::IsOutsideOfWindow()
+{
+	if (this->mSprite.getPosition().y > 600)
+		return true;
+	return false;
+}
+
 void Entity::UpdateTexture(string path)
 {
-	Textures textures;
 	mTexture.loadFromFile(path);
 	mSprite.setTexture(mTexture);
 }

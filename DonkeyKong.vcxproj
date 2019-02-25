@@ -171,7 +171,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="StringHelpers.h" />
-    <ClInclude Include="Textures.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DonkeyKong.cpp" />

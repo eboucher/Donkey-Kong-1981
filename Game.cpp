@@ -54,7 +54,14 @@ void Game::run()
 			shared_ptr<Mario> mario = mEntityManager.mMario;
 
 			if (mEntityManager.NoMoreCoinsLeft())
+			{
 				this->Over(1);
+			}
+			if ((mario->OnVoid() && !mario->mIsJumping && mario->cptFly == 0)) {
+				mario->GoDown(sf::microseconds(10000));
+			}			
+			if (mario->IsOutsideOfWindow())
+				Over(0);
 			mario->GravityHandle();
 	}
 }
@@ -97,22 +104,27 @@ void Game::handleMarioInput(sf::Keyboard::Key key, bool isPressed)
 
 void Game::update(sf::Time elapsedTime)
 {
+		if (mIsMovingUpOnLadder)
+			mEntityManager.mMario->GoUp(elapsedTime);
 
-	if (mIsMovingLeft)
-		mEntityManager.mMario->GoLeft(elapsedTime);
-	if (mIsMovingRight)
-		mEntityManager.mMario->GoRight(elapsedTime);
-	if (mIsMovingUpOnLadder)
-		mEntityManager.mMario->ClimbLadder(elapsedTime);
-	if (mIsMovingDownOnLadder)
-		mEntityManager.mMario->GoDown(elapsedTime);
-	if (mIsJumping)
-		mEntityManager.mMario->Jump(elapsedTime);
+		if (mIsMovingDownOnLadder)
+			mEntityManager.mMario->GoDown(elapsedTime);
 
-	mEntityManager.HandleCoinProximity();
+		if (mIsMovingLeft)
+			mEntityManager.mMario->GoLeft(elapsedTime);
 
-	if(mEntityManager.mMario->TouchBowser())
-		Over(1);
+		if (mIsMovingRight)
+			mEntityManager.mMario->GoRight(elapsedTime);
+
+		if (mIsJumping)
+			mEntityManager.mMario->Jump(elapsedTime);
+
+		mEntityManager.HandleCoinProximity();
+
+		if(mEntityManager.mMario->TouchBowser())
+		{
+			Over(1);
+		}
 }
 
 void Game::render()
@@ -154,9 +166,9 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
 	{
 		mStatisticsText.setString(
-			"Frames / Second = " + toString(mStatisticsNumFrames) + "\n" +
-			"Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us\n" +
-			toString(mEntityManager.EatenCoins()) + "/" + toString(mEntityManager.mCoins.size()) + " peachs"
+			"Fps = " + toString(mStatisticsNumFrames) + "\n" +
+			"Time to up = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us\n" +
+			toString(mEntityManager.EatenCoins()) + " of " + toString(mEntityManager.mCoins.size()) + " peachs"
 		);
 
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
