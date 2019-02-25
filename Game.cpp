@@ -1,100 +1,35 @@
 #include "pch.h"
 #include "StringHelpers.h"
+#include "Entity.h"
 #include "Game.h"
-#include "EntityManager.h"
+#include "Mario.h"
+#include "InanimateEntities.h"
 
 using namespace std;
 
-//const float Game::MarioSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
-const string Game::texturesPath = "Media/Textures/DonkeyKong_SpriteSheet.png";
-
-shared_ptr<sf::Texture> Game::getTexture(const sf::Image &spriteSheet)
-{
-	return texture;
-}
-
-shared_ptr<sf::Texture> Game::GetSprite(const sf::Image &spriteSheet, const sf::IntRect &pos)
-{
-	texture = make_shared<sf::Texture>();
-	texture->loadFromImage(spriteSheet, pos);
-	texture->setRepeated(true);
-	return texture;
-}
 
 Game::Game()
 	: mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
-	, mTexture()
-	, mPlayer()
 	, mFont()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
-	, mIsMovingUp(false)
-	, mIsMovingDown(false)
+	, mIsMovingUpOnLadder(false)
+	, mIsMovingDownOnLadder(false)
 	, mIsMovingRight(false)
+	, mIsJumping(false)
 	, mIsMovingLeft(false)
 {
-	mWindow.setFramerateLimit(160);
+	mWindow.setFramerateLimit(60);
 
-	// Draw ground blocks
-
-	_TextureBlock.loadFromFile("Media/Textures/Block.png");
-	_sizeBlock = _TextureBlock.getSize();
-	sf::Vector2f position;
-
-	for (int i = 0; i < BLOCK_COUNT_X; i++)
-	{
-		for (int j = 0; j < BLOCK_COUNT_Y; j++)
-		{
-			//_Block[i][j].setTexture(_TextureBlock);
-			//_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-
-			//shared_ptr<Ground> block = make_shared<Ground>();
-			//block->m_sprite = _Block[i][j];
-			//block->m_type = EntityType::ground;
-			//block->m_size = _TextureBlock.getSize();
-			//block->m_position = _Block[i][j].getPosition();
-			position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-			EntityManager::AddGroundBlock(position);
-		}
-	}
-
-	// Draw Ladders
-
-	_LadderTexture.loadFromFile("Media/Textures/Ladder.png");
-
-	for (int i = 0; i < LADDER_COUNT; i++)
-	{
-		_Ladder[i].setTexture(_LadderTexture);
-		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
-
-		shared_ptr<Entity> se = make_shared<Entity>();
-		se->m_sprite = _Ladder[i];
-		se->m_type = EntityType::ladder;
-		se->m_size = _LadderTexture.getSize();
-		se->m_position = _Ladder[i].getPosition();
-		EntityManager::AddLadder(se->m_position);
-	}
-
-	// Draw Mario
-
-	mTexture.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
-	_sizeMario = mTexture.getSize();
-	mPlayer.setTexture(mTexture);
-	sf::Vector2f posMario;
-	posMario.x = 100.f + 70.f;
-	posMario.y = BLOCK_SPACE * 5 - _sizeMario.y;
-
-	EntityManager::SetMario(posMario);
-
-	// Draw Statistic Font 
-
+	// Draw Statistic Font
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setString("Welcome to Donkey Kong 1981");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10);
+	mStatisticsText.setCharacterSize(20);
+
 }
 
 void Game::run()
@@ -110,14 +45,19 @@ void Game::run()
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processEvents();
-			EntityManager::UpdateEntities(TimePerFrame);
+			update(TimePerFrame);
 		}
 
 		updateStatistics(elapsedTime);
 		render();
+
+			shared_ptr<Mario> mario = mEntityManager.mMario;
+
+			if (mEntityManager.NoMoreCoinsLeft())
+				this->Over(1);
+			mario->GravityHandle();
 	}
 }
-
 void Game::processEvents()
 {
 	sf::Event event;
@@ -126,11 +66,11 @@ void Game::processEvents()
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			handlePlayerInput(event.key.code, true);
+			handleMarioInput(event.key.code, true);
 			break;
 
 		case sf::Event::KeyReleased:
-			handlePlayerInput(event.key.code, false);
+			handleMarioInput(event.key.code, false);
 			break;
 
 		case sf::Event::Closed:
@@ -140,38 +80,68 @@ void Game::processEvents()
 	}
 }
 
+void Game::handleMarioInput(sf::Keyboard::Key key, bool isPressed)
+{
+	if (key == sf::Keyboard::Up)
+		mIsMovingUpOnLadder = isPressed;
+	else if (key == sf::Keyboard::Down)
+		mIsMovingDownOnLadder = isPressed;
+	else if (key == sf::Keyboard::Left)
+		mIsMovingLeft = isPressed;
+	else if (key == sf::Keyboard::Right)
+		mIsMovingRight = isPressed;
+	if (key == sf::Keyboard::Space) {
+		mIsJumping = isPressed;
+	}
+}
+
+void Game::update(sf::Time elapsedTime)
+{
+
+	if (mIsMovingLeft)
+		mEntityManager.mMario->GoLeft(elapsedTime);
+	if (mIsMovingRight)
+		mEntityManager.mMario->GoRight(elapsedTime);
+	if (mIsMovingUpOnLadder)
+		mEntityManager.mMario->ClimbLadder(elapsedTime);
+	if (mIsMovingDownOnLadder)
+		mEntityManager.mMario->GoDown(elapsedTime);
+	if (mIsJumping)
+		mEntityManager.mMario->Jump(elapsedTime);
+
+	mEntityManager.HandleCoinProximity();
+
+	if(mEntityManager.mMario->TouchBowser())
+		Over(1);
+}
+
 void Game::render()
 {
 	mWindow.clear();
 
-	for (std::shared_ptr<Entity> entity : entityManager->mBlocks)
+	for (shared_ptr<Entity> entity : mEntityManager.mBlocks)
 	{
-		if (entity->m_enabled)
-			mWindow.draw(entity->m_sprite);
+		if (entity->mEnabled)
+			mWindow.draw(entity->mSprite);
 	}
 
-	for (std::shared_ptr<Entity> entity : entityManager->mLadders)
+	for (shared_ptr<Entity> entity : mEntityManager.mLadders)
 	{
-		if (entity->m_enabled)
-			mWindow.draw(entity->m_sprite);
+		if (entity->mEnabled)
+			mWindow.draw(entity->mSprite);
 	}
 
-	for (std::shared_ptr<Entity> entity : entityManager->mCoins)
+	for (shared_ptr<Entity> entity : mEntityManager.mCoins)
 	{
-		if (entity->m_enabled)
-			mWindow.draw(entity->m_sprite);
+		if (entity->mEnabled)
+			mWindow.draw(entity->mSprite);
 	}
 
-	for (std::shared_ptr<Entity> entity : entityManager->mEnemies)
-	{
-		if (entity->m_enabled)
-			mWindow.draw(entity->m_sprite);
-	}
-
-	mWindow.draw(entityManager->mPlayer->m_sprite);
-	mWindow.draw(entityManager->mPeach->m_sprite);
+	mWindow.draw(mEntityManager.mMario->mSprite);
+	mWindow.draw(mEntityManager.mPeach->mSprite);
 
 	mWindow.draw(mStatisticsText);
+	mWindow.draw(mGameOver);
 
 	mWindow.display();
 }
@@ -185,41 +155,26 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	{
 		mStatisticsText.setString(
 			"Frames / Second = " + toString(mStatisticsNumFrames) + "\n" +
-			"Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us");
+			"Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us\n" +
+			toString(mEntityManager.EatenCoins()) + "/" + toString(mEntityManager.mCoins.size()) + " peachs"
+		);
 
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsNumFrames = 0;
 	}
-
-	//
-	// Handle collision
-	//
-
-	if (mStatisticsUpdateTime >= sf::seconds(0.050f))
-	{
-		// Handle collision weapon enemies
-	}
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
+void Game::Over(int state)
 {
-	if (key == sf::Keyboard::Up)
-		mIsMovingUp = isPressed;
-	else if (key == sf::Keyboard::Down)
-		mIsMovingDown = isPressed;
-	else if (key == sf::Keyboard::Left)
-		mIsMovingLeft = isPressed;
-	else if (key == sf::Keyboard::Right)
-		mIsMovingRight = isPressed;
-
-	if (key == sf::Keyboard::Space)
+	mGameOver.setFont(mFont);
+	mGameOver.setPosition(300.f, 300.f);
+	if (state == 0)
 	{
-		if (isPressed == false)
-		{
-			return;
-		}
-
+		mGameOver.setString("OOOOOOOOOOOh Mamamia !");
+	}
+	else
+	{
+		mEntityManager.IsWon = true;
+		mGameOver.setString("Sub Zero Win !");
 	}
 }
-
-

@@ -1,19 +1,35 @@
 #pragma once
+#include "pch.h"
 #include "Entity.h"
 
-class Ground 
-	: public Entity
+using namespace std;
+
+class Block : public Entity
 {
 public:
-	Ground(const sf::Texture&, sf::Vector2f);
-	~Ground();
+	Block();
+	Block(sf::Vector2f position);
+	~Block();
+
 };
 
-
-class Ladder 
-	: public Entity
+class Ladder : public Entity
 {
 public:
-	Ladder(const sf::Texture&, sf::Vector2f);
+	Ladder();
+	Ladder(sf::Vector2f position);
 	~Ladder();
+
+
+};
+
+class Coin : public Entity
+{
+public:
+	Coin();
+	Coin(sf::Vector2f position);
+	~Coin();
+
+public:
+	bool CollidesLadder(vector<shared_ptr<Ladder>> mLadders);
 };

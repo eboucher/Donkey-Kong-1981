@@ -1,32 +1,33 @@
 #pragma once
+#include "pch.h"
 #include "Entity.h"
+#include "Textures.h"
 
-constexpr auto DEFAULT_SPEED = 100.f;;
+#define JUMPING_FRAMES 10
+#define FLYING_FRAMES 15
 
 using namespace std;
 
-class Mario :
-	public Entity
+class Mario : public Entity
 {
-  public:
-	Mario(const sf::Texture&, sf::Vector2f);
-	//~Mario();
+public:
+	Mario(sf::Vector2f position);
+	virtual ~Mario();
+	
 
-  private:
-	float MarioSpeed;
-	bool isMovingRight = false;
-	bool isMovingLeft = false;
-	bool isMovingUp = false;
-	bool isMovingDown = false;
-	bool isOnLadder = false;
-	bool isJumping = false;
-	bool isFalling = false;
+public:
+	bool TouchBowser();
+	bool GoDown(sf::Time elapsedTime);
+	void GoLeft(sf::Time elapsedTime); 
+	void GoRight(sf::Time elapsedTime); 
+	bool ClimbLadder(sf::Time elapsedTime);
+	void Jump(sf::Time elapsedTime);
+	void GravityHandle();
 
-  protected:
-	  bool StandsOnGround();
-
-  public:
-	  void setFalling(bool value);
-	  void HandleInput(sf::Keyboard::Key key, bool isPressed);
-	  void UpdateMario(sf::Time elapsedTime);
+public:
+	bool mIsJumping = false;
+	int jumpingCaption = 0;
+	int fallingCaption = 10;
+	int flyingCaption = 0;
 };
+

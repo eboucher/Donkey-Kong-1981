@@ -1,34 +1,38 @@
 #pragma once
+#include "Textures.h"
 
-#include <SFML/Graphics.hpp>
-#include <string>
-
-enum EntityType
-{
-	mario,
-	ground,
-	ladder
-};
+using namespace std;
 
 class Entity
 {
-  public:
-	Entity() { };
-	Entity(const EntityType entityType, 
-		   const sf::Texture texture, 
-		   const sf::Vector2f initialPos);
-	//~Entity() { };
 
-  public:
-	sf::Sprite m_sprite;
-	sf::Vector2u m_size;
-	sf::Vector2f m_position;
-	sf::Texture m_texture;
-	EntityType m_type;
-	bool m_enabled = true;
+protected:
+	Entity();
+	Entity(sf::Vector2f position);
+public:
+	Entity(sf::Vector2f position, string texturePath);
 
-	// Enemy only
-	bool m_bLeftToRight = true;
-	int m_times = 0;
+public:
+	~Entity() { };
+
+public:
+	void GoRight(sf::Time elapsedTime);
+	void GoLeft(sf::Time elapsedTime);
+	bool ClimbLadder(sf::Time elapsedTime);
+	void UpdateTexture(string path);
+	bool GoDown(sf::Time elapsedTime);
+	bool IsOnLadder();
+	bool OnALadder();
+	bool CollidesBlock();
+
+public:
+	bool GoesToTheRight = true;
+	sf::Sprite mSprite;
+	bool mEnabled = true;
+	int mTimes = 0;
+	float m_speed;
+
+protected:
+	sf::Texture mTexture;
+	
 };
-
